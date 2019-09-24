@@ -66,7 +66,7 @@ export default class CreateTodo extends Component{
                         />
                     </div>
                     <div className="form-group">
-                        <lable>Responsible: </lable>
+                        <label>Responsible: </label>
                         <input type="text"
                                 className="form-control"
                                 value={this.state.todo_responsible}
