@@ -4,9 +4,9 @@ import axios from 'axios';
 
 const Todo = props => (
     <tr>
-        <td>{ props.todo.todo_description }</td>
-        <td>{ props.todo.todo_responsible }</td>
-        <td>{ props.todo.todo_priority }</td>
+        <td className={ props.todo_completed ? 'completed' : ''}>{ props.todo.todo_description }</td>
+        <td className={ props.todo_completed ? 'completed' : ''}>{ props.todo.todo_responsible }</td>
+        <td className={ props.todo_completed ? 'completed' : ''}>{ props.todo.todo_priority }</td>
         <td>
             <Link to={"/edit/"+props.todo._id}>Edit</Link> | <Link to={"/delete/"+props.todo._id}>Delete</Link>
         </td>
