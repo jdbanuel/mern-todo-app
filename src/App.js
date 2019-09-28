@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CreateTodo from "./components/create-todo.component.jsx";
 import TodosList from "./components/todos-list.component.jsx";
 import EditTodo from "./components/edit-todo.component.jsx";
+import DeleteTodo from "./components/delete-todo.component.jsx"
 
 import logo from "./logo.svg";
 
@@ -33,6 +34,7 @@ class App extends Component {
             <Route path="/" exact component={TodosList} />
             <Route path="/edit/:id" component={EditTodo} />
             <Route path="/create" component={CreateTodo} />
+            <Route path="/delete/:id" component={DeleteTodo} />
           </div>
         </Router>
       
