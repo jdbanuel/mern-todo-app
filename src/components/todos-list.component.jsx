@@ -35,15 +35,15 @@ export default class TodosList extends Component {
             })
     }
 
-    componentDidUpdate() {
-        axios.get('http://localhost:4000/todos/')
-            .then(res => {
-                this.setState({ todos: res.data });
-            })
-            .catch(function(err){
-                console.log(err);
-            })
-    }
+    // componentDidUpdate(nextProps, nextState) {
+    //         axios.get('http://localhost:4000/todos/')
+    //         .then(res => {
+    //             this.setState({ todos: res.data });
+    //         })
+    //         .catch(function(err){
+    //             console.log(err);
+    //         })   
+    // }
 
     render() {
         return (
