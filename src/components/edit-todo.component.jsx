@@ -16,7 +16,7 @@ export default class EditTodo extends Component {
             todo_description: '',
             todo_responsible: '',
             todo_priority: '',
-            todo_completed: false
+            todo_completed: false,    
         }
     }
 
@@ -59,7 +59,7 @@ export default class EditTodo extends Component {
         axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, modifiedTodo)
             .then(res => console.log(res.data));
             
-            this.props.history.push('/')
+        this.props.history.push('/');
     }
 
     componentDidMount(){
