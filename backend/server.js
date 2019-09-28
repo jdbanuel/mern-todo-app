@@ -54,6 +54,22 @@ todoRoutes.route('/update/:id').post(function(req, res) {
     });
 });
 
+todoRoutes.route('/delete/:id').delete(function(req, res) {
+    Todo.findById(req.params.id, function(err, todo) {
+        if (!todo)
+            res.status(404).send("Item not found.");
+        else
+            Todo.findByIdAndRemove(req.params.id)
+            .then(Todo => {
+                res.json('Todo deleted!')
+                res.redirect("/");
+            })
+            .catch(err => {
+                res.status(400).send('Unable to delete todo.')
+            });
+    });
+});
+
 todoRoutes.route('/add').post(function(req, res) {
     let todo = new Todo(req.body);
     todo.save()
