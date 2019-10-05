@@ -15,77 +15,79 @@ mongoose.connect('mongodb://127.0.0.1:27017/todos', { useNewUrlParser: true });
 const connection = mongoose.connection;
 
 connection.once('open', function() {
-    console.log("MongoDB database connection established successfully");
-})
+	console.log('MongoDB database connection established successfully');
+});
 
 todoRoutes.route('/').get(function(req, res) {
-    Todo.find(function(err, todos) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(todos);
-        }
-    });
+	Todo.find(function(err, todos) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(todos);
+		}
+	});
 });
 
 todoRoutes.route('/:id').get(function(req, res) {
-    let id = req.params.id;
-    Todo.findById(id, function(err, todo) {
-        res.json(todo);
-    });
+	let id = req.params.id;
+	Todo.findById(id, function(err, todo) {
+		res.json(todo);
+	});
 });
 
 todoRoutes.route('/update/:id').post(function(req, res) {
-    Todo.findById(req.params.id, function(err, todo) {
-        if (!todo)
-            res.status(404).send("data is not found");
-        else
-            todo.todo_description = req.body.todo_description;
-            todo.todo_responsible = req.body.todo_responsible;
-            todo.todo_priority = req.body.todo_priority;
-            todo.todo_completed = req.body.todo_completed;
+	Todo.findById(req.params.id, function(err, todo) {
+		if (!todo) res.status(404).send('data is not found');
+		else todo.todo_description = req.body.todo_description;
+		todo.todo_responsible = req.body.todo_responsible;
+		todo.todo_priority = req.body.todo_priority;
+		todo.todo_completed = req.body.todo_completed;
 
-            todo.save().then(todo => {
-                res.json('Todo updated!');
-            })
-            .catch(err => {
-                res.status(400).send("Update not possible");
-            });
-    });
+		todo
+			.save()
+			.then(todo => {
+				res.json('Todo updated!');
+			})
+			.catch(err => {
+				res.status(400).send('Update not possible');
+			});
+
+		res.redirect('/');
+	});
 });
 
 todoRoutes.route('/delete/:id').delete(function(req, res) {
-    Todo.findById(req.params.id, function(err, todo) {
-        if (!todo)
-            res.status(404).send("Item not found.");
-        else
-            Todo.deleteOne({_id: req.params.id})
-            .then(Todo => {
-                res.json('Todo deleted!')
-            })
-            .catch(err => {
-                res.status(400).send('Unable to delete todo.')
-            });
+	Todo.findById(req.params.id, function(err, todo) {
+		if (!todo) res.status(404).send('Item not found.');
+		else
+			Todo.deleteOne({ _id: req.params.id })
+				.then(Todo => {
+					res.json('Todo deleted!');
+				})
+				.catch(err => {
+					res.status(400).send('Unable to delete todo.');
+				});
 
-            res.redirect("/");
-    });
+		res.redirect('/');
+	});
 });
 
 todoRoutes.route('/add').post(function(req, res) {
-    let todo = new Todo(req.body);
-    todo.save()
-        .then(todo => {
-            res.status(200).json({'todo': 'todo added successfully'});
-            res.redirect("/");
-        })
-        .catch(err => {
-            res.status(400).send('adding new todo failed');
-            res.redirect("/");
-        });
+	let todo = new Todo(req.body);
+	todo
+		.save()
+		.then(todo => {
+			res.status(200).json({ todo: 'todo added successfully' });
+			res.redirect('/');
+		})
+		.catch(err => {
+			res.status(400).send('adding new todo failed');
+			res.redirect('/');
+		});
 });
 
 app.use('/todos', todoRoutes);
 
 app.listen(PORT, function() {
-    console.log("Server is running on Port: " + PORT);
+	console.log('Server is running on Port: ' + PORT);
 });
