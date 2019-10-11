@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,56 +14,43 @@ const Todo = props => (
     </tr>
 )
 
-export default class TodosList extends Component {
-    constructor(props){
-        super(props);
-        this.state = { todos: [] }
-    }
+const TodosList = () => {
+    const [todos, setTodos] = useState([]);
 
-    todoList() {
-        return this.state.todos.map(function(currentTodo, i){
+    const todoList = () => {
+        return todos.map(function(currentTodo, i){
             return <Todo todo={currentTodo} key={i} />;
         })
     }
 
-    componentDidMount() {
+    useEffect(() => {
         axios.get('http://localhost:4000/todos/')
             .then(res => {
-                this.setState({ todos: res.data });
+                setTodos({ todos: res.data });
             })
             .catch(function(err){
                 console.log(err);
             })
-    }
+      }, []);
 
-    // componentDidUpdate(nextProps, nextState) {
-    //         axios.get('http://localhost:4000/todos/')
-    //         .then(res => {
-    //             this.setState({ todos: res.data });
-    //         })
-    //         .catch(function(err){
-    //             console.log(err);
-    //         })   
-    // }
-
-    render() {
-        return (
-            <div>
-                <h3>Todo List</h3>
-                <table className="table table-striped" style = {{ marginTop: 20 }}>
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Responsible</th>
-                            <th>Priority</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.todoList() }
-                    </tbody>
-                </table>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <h3>Todo List</h3>
+            <table className="table table-striped" style = {{ marginTop: 20 }}>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Responsible</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { todoList() }
+                </tbody>
+            </table>
+        </div>
+    )
 }
+
+export default TodosList;
